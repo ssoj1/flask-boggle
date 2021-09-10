@@ -39,7 +39,9 @@ class WordList:
         >>> english_words.check_word("AJDNFHRUF")
         False
 
-        # check that a blank word isn't in the list
+        >>> english_words.check_word("")
+        False
+        
         """
 
         return word in self.words
