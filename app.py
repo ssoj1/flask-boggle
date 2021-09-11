@@ -27,12 +27,18 @@ def new_game():
     games[game_id] = game
 
     # return {"gameId": f"{game_id}", "board": f"{game.board}"}
-    return jsonify(gameId = f"{game_id}", board = f"{game.board}")
+    # or can return a dictionary
+    return jsonify(gameId=game_id, board=game.board)
+
 
 @app.post("/api/score-word")
 def score_word():
     """Accepts a word played by user for a specific game and determines if 
-    it's a valid word"""
+    it's a valid word. Returns one of these three things depending on the word:
+    {result: "not-word"}
+    {result: "not-on-board"}
+    {result: "ok"}
+    """
 
     word = request.json["word"].upper()
     game_id = request.json["gameId"]
@@ -41,9 +47,9 @@ def score_word():
     is_findable_on_board = games[game_id].check_word_on_board(word)
 
     if not is_word_in_word_list:
-        return jsonify(result = "not-word")
+        return jsonify(result="not-word")
 
     if not is_findable_on_board:
-        return jsonify( result = "not-on-board")
-    
-    return jsonify( result = "ok")
+        return jsonify(result="not-on-board")
+
+    return jsonify(result="ok")
